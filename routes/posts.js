@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router({ mergeParam: true });
+const { errorHandle } = require('../middleware');
+const { getPosts } = require('../controllers/posts');
 
 /* GET /posts index page. */
-router.get('/', (req, res, next) => {
-  res.send('INDEX /posts');
-});
+router.get('/', errorHandle(getPosts));
 
 /* GET /posts/new page. */
 router.get('/new', (req, res, next) => {
