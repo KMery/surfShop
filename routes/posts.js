@@ -6,7 +6,8 @@ const {
   postNew, 
   postCreate,
   postShow,
-  postEdit 
+  postEdit,
+  postUpdate 
 } = require('../controllers/posts');
 
 /* GET /posts index page. */
@@ -25,9 +26,7 @@ router.get('/:id', asyncErrorHandler(postShow));
 router.get('/:id/edit', asyncErrorHandler(postEdit));
 
 /* UPDATE posts update /posts/:id page. */
-router.put('/:id', (req, res, next) => {
-  res.send('UPDATE /posts/:id');
-});
+router.put('/:id', asyncErrorHandler(postUpdate));
 
 /* DELETE posts destroy /posts/:id page. */
 router.delete('/:id', (req, res, next) => {
