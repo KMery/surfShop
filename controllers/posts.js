@@ -1,4 +1,10 @@
 const Post = require('../models/post');
+const cloudinary = require('cloudinary');
+cloudinary.config({
+    cloud_name: 'dqrm0myct',
+    api_key: '823875831589267',
+    api_secret: process.env.CLOUDINARY_SECRET
+})
 
 module.exports = {
     //Post index
@@ -12,7 +18,15 @@ module.exports = {
     },
     //Post create
     async postCreate(req, res, next) {
-        //use req.body to create a post
+        req.body.post.images = [];
+        for (const file of req.files) {
+            let image = await cloudinary.v2.uploader.upload(file.path);
+            req.body.post.images.push({
+                url: image.secure_url,
+                public_id: image.public_id
+            });
+            console.log(req.body.post.images);
+        };
         let post = await Post.create(req.body.post);
         res.redirect(`/posts/${post.id}`);
     },
@@ -30,5 +44,10 @@ module.exports = {
     async postUpdate(req, res, next) {
         let post = await Post.findByIdAndUpdate(req.params.id, req.body.post, { new: true });
         res.redirect(`/posts/${post.id}`);
+    },
+    //Post delete
+    async postDelete(req, res, next) {
+        await Post.findByIdAndRemove(req.params.id);
+        res.redirect('/posts');
     }
 }

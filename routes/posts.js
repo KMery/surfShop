@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router({ mergeParam: true });
+const multer = require('multer');
+const upload = multer({'dest': 'uploads/'});
 const { asyncErrorHandler } = require('../middleware');
 const { 
   postIndex, 
@@ -7,7 +9,8 @@ const {
   postCreate,
   postShow,
   postEdit,
-  postUpdate 
+  postUpdate,
+  postDelete 
 } = require('../controllers/posts');
 
 /* GET /posts index page. */
@@ -17,7 +20,7 @@ router.get('/', asyncErrorHandler(postIndex));
 router.get('/new', postNew);
 
 /* POST posts create /posts/new page. */
-router.post('/', asyncErrorHandler(postCreate));
+router.post('/', upload.array('images', 4), asyncErrorHandler(postCreate));
 
 /* GET posts show /posts/:id */
 router.get('/:id', asyncErrorHandler(postShow));
@@ -29,9 +32,7 @@ router.get('/:id/edit', asyncErrorHandler(postEdit));
 router.put('/:id', asyncErrorHandler(postUpdate));
 
 /* DELETE posts destroy /posts/:id page. */
-router.delete('/:id', (req, res, next) => {
-  res.send('DELETE /posts/:id');
-});
+router.delete('/:id', asyncErrorHandler(postDelete));
   
 
   module.exports = router;
