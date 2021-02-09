@@ -25,7 +25,7 @@ module.exports = {
                 url: image.secure_url,
                 public_id: image.public_id
             });
-            console.log(req.body.post.images);
+            // console.log(req.body.post.images);
         };
         let post = await Post.create(req.body.post);
         res.redirect(`/posts/${post.id}`);
@@ -42,10 +42,39 @@ module.exports = {
     },
     //Post update
     async postUpdate(req, res, next) {
-        //handle any deletion of existing images
-
-        //handle upload of any  new images
-        let post = await Post.findByIdAndUpdate(req.params.id, req.body.post, { new: true });
+        let post = await Post.findById(req.params.id);
+        //deletions of selected images (from cloudinary and db)
+        if (req.body.deleteImages && req.body.deleteImages.length > 0) {
+            let deleteImages = req.body.deleteImages; 
+            for (const public_id of deleteImages) {
+                await cloudinary.v2.uploader.destroy(public_id);
+                for (const image of post.images) {
+                    if (public_id === image.public_id) {
+                        let index = post.images.indexOf(image);
+                        post.images.splice(index, 1);
+                    }
+                }
+            }
+        };
+        //check if there are new images to upload
+        if (req.files) {
+            for (const file of req.files) {
+                let image = await cloudinary.v2.uploader.upload(file.path);
+                post.images.push({
+                    url: image.secure_url,
+                    public_id: image.public_id
+                });
+                console.log(post.images);
+            };  
+        };
+        //update the post with the new properties
+        post.title = req.body.post.title;
+        post.description = req.body.post.description;
+        post.price = req.body.post.price;
+        post.location = req.body.post.location;
+        //save updated post
+        post.save();
+        //redirect to the show page (by id)
         res.redirect(`/posts/${post.id}`);
     },
     //Post delete
