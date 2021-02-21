@@ -1,24 +1,4 @@
-<script src="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js"></script>
-<link href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css" rel="stylesheet" />
-
-<style>
-	body { 
-        margin: 0; 
-        padding: 0; 
-    }
-
-	#map { 
-        width: 400px; 
-        height: 300px; 
-    }
-
-    .mapboxgl-popup {
-        max-width: 400px;
-        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-        transform: translateY(40px);
-    }
-</style>
-
+<% layout('layouts/post-show-layout') -%>
 <h1>    <%= post.title %>           </h1>
 <div>   Price: $<%= post.price %>   </div>
 <div>   <%= post.description %>     </div>
@@ -40,53 +20,3 @@
         <input type="submit" value="Delete">
     </form>
 </div>
-
-<script>
-    var post = <%- JSON.stringify(post) %>;
-    var coordinates = post.coordinates;
-
-	mapboxgl.accessToken = 'pk.eyJ1Ijoia21lcnkiLCJhIjoiY2tsYTVoZzBpMGQyeTJucDI4ajl4eXd4byJ9.Oa9HXfXX1DJl9lcUg6j9CQ';
-    var map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: coordinates,
-        zoom: 8
-    });
-
-    // var marker = new mapboxgl.Marker()
-    //     .setLngLat(coordinates)
-    //     .addTo(map);
-    // console.log('map', map);
-    // console.log('marker', marker);
-
-    // map.on('click', 'places', (e) => {
-        // while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-        // coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-        // }
-
-        var marker = new mapboxgl.Marker({
-            // color: "#FFFFFF",
-            draggable: true
-            }).setLngLat(coordinates)
-            // .setPopup(new mapboxgl.Popup({ offset: 25 }))
-            // .setHTML(location)
-            // .setHTML('<h3>' + post.title + '</h3><p>' + post.location + '</p>')
-            .addTo(map);
-    // });    
-    map.on('click', (e) => {
-        var addPopup = new mapboxgl.Popup()
-            .setLngLat(coordinates)
-            .setHTML('<h3>' + post.title + '</h3><p>' + post.location + '</p>')
-            .addTo(map);
-    });    
-
-    // map.on('mouseenter', 'places', function () {
-    //     map.getCanvas().style.cursor = 'pointer';
-    // });
-    
-    // // Change it back to a pointer when it leaves.
-    // map.on('mouseleave', 'places', function () {
-    //     map.getCanvas().style.cursor = '';
-    // });
-
-</script>
