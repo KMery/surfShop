@@ -1,6 +1,7 @@
 require('dotenv').config(); 
 const createError = require('http-errors');
 const express = require('express');
+const engine = require('ejs-mate');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -29,7 +30,8 @@ db.once('open', () => {
   console.log("You're connected to mongoDB!");
 })
 
-
+// use ejs-locals for all ejs templates:
+app.engine('ejs', engine);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
