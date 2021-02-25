@@ -1,4 +1,4 @@
-require('dotenv').config(); 
+require('../dotenv').config(); 
 const createError = require('http-errors');
 const express = require('express');
 const engine = require('ejs-mate');
@@ -23,6 +23,7 @@ const app = express();
 
 //Connect to the database
 let uri = 'mongodb://localhost:27017/surf-shop-mapbox'
+// let uri = 'mongodb://localhost:27017/surf-shop'
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'))
@@ -62,6 +63,12 @@ passport.use(User.createStrategy());
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+//set local variables middleware
+app.use((req, res, next) => {
+  res.locals.title = 'Surf Shop';
+  next();
+});
 
 //Mount routes
 app.use('/', indexRouter);

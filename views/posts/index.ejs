@@ -1,7 +1,7 @@
 <% layout('layouts/post-show-layout') -%>
 <h1>Posts index!</h1>
 
-<% posts.forEach(function(post) { %>
+<% post.forEach(function(post) { %>
     <div>
         <h1> <%= post.title %> </h1>
         <div>Price: $<%= post.price %> </div>

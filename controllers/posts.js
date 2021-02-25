@@ -11,8 +11,8 @@ cloudinary.config({
 module.exports = {
     //Post index
     async postIndex(req, res, next) {
-        let posts = await Post.find({});
-        res.render('posts/index', { posts });
+        let post = await Post.find({});
+        res.render('posts/index', { post, title: "Post index" });
     },
     //Post new
     postNew(req, res, next) {
