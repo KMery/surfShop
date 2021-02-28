@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router({ mergeParam: true });
+const router = express.Router({ mergeParams: true });
 const multer = require('multer');
 const upload = multer({'dest': 'uploads/'});
 const { asyncErrorHandler } = require('../middleware');
