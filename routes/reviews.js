@@ -11,9 +11,7 @@ const {
 router.post('/', asyncErrorHandler(reviewCreate));
 
 /* UPDATE reviews update /posts/:id/reviews/:review_id page. */
-router.put('/:review_id', (req, res, next) => {
-  res.send('UPDATE /posts/:id/reviews/:review_id');
-});
+router.put('/:review_id', asyncErrorHandler(reviewUpdate));
 
 /* DELETE reviews destroy /posts/:id/reviews/:review_id page. */
 router.delete('/:review_id', (req, res, next) => {
