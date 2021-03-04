@@ -112,6 +112,7 @@ module.exports = {
         };
         //delete the post
         await post.remove();
+        req.session.success = "Post deleted successfully!"
         res.redirect('/posts');
     }
 }
