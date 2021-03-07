@@ -10,6 +10,8 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const bodyParser = require('body-parser'); 
+// const seedPost = require('./seeds');
+// seedPost();
 
 //Models
 const User = require('./models/user');
