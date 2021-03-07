@@ -4,6 +4,21 @@
 <div>   <%= post.description %>     </div>
 <div>   <%= post.location %>        </div>
 <div>
+    <% for(let i = 0; i < 5; i++) { %>
+        <% if (i < floorRating) { %>
+            <!-- display a full star -->
+            <i class="fas fa-star"></i>
+        <% } else if ((post.avgRating - i) > 0 && (post.avgRating - i) < 1) { %>
+            <!-- display a half star -->
+            <i class="fas fa-star-half-alt"></i>
+        <% } else {  %>
+            <!-- display an empty star -->
+            <i class="far fa-star"></i>
+        <% } %>
+    <% } %>
+    <%= `${post.avgRating} star${post.avgRating === 1 ? '' : 's'}`%>
+</div>
+<div>
     <% post.images.forEach(function(image) { %>
     <img src="<%= image.url %>" alt="Surf board image" width="400px">
     <% }); %>
@@ -52,6 +67,7 @@
     <% if (review.author.equals(currentUser._id)) { %>
         <div>
             <button class="toggle-edit-form">Edit</button>
+            <% console.log(post.id) %>
             <form action="/posts/<%= post.id %>/reviews/<%= review.id %>?_method=PUT" method="POST" class="edit-review-form">
                 <textarea name="review[body]"> <%= review.body %> </textarea>
                 <fieldset class="starability-basic">
