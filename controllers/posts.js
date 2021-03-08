@@ -16,7 +16,11 @@ module.exports = {
             limit: 10
         });
         post.page = Number(post.page);
-        res.render('posts/index', { post, title: "Post index" });
+        res.render('posts/index', { 
+            post, 
+            mapBoxToken: process.env.MAPBOX_TOKEN, 
+            title: "Post index" 
+        });
     },
     //Post new
     postNew(req, res, next) {
@@ -54,8 +58,8 @@ module.exports = {
             } 
         });
         const floorRating = post.calculateAvgRating();
-        // let mapboxToken = process.env.MAPBOX_TOKEN;
-        res.render('posts/show', { post, floorRating }); //mapboxToken
+        let mapboxToken = process.env.MAPBOX_TOKEN;
+        res.render('posts/show', { post, mapboxToken, floorRating }); //mapboxToken
     },
     //Post edit
     async postEdit(req, res, next) {
