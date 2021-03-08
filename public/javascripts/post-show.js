@@ -1,5 +1,5 @@
 // var coordinates = post.coordinates;
-//create a map with mapbox    
+//create a map with mapbox 
 mapboxgl.accessToken = 'pk.eyJ1Ijoia21lcnkiLCJhIjoiY2tsYTVoZzBpMGQyeTJucDI4ajl4eXd4byJ9.Oa9HXfXX1DJl9lcUg6j9CQ';
 // console.log(post);
 // console.log(mapBoxToken);
@@ -19,7 +19,7 @@ var marker = new mapboxgl.Marker({
     .setLngLat(post.geometry.coordinates)
     .addTo(map);    
 //create a popup for the marker in the map
-map.on('click', (e) => {
+map.on('click', function(e) {
     var addPopup = new mapboxgl.Popup({ offset: 25 })
         .setLngLat(post.geometry.coordinates)
         .setHTML('<h3>' + post.title + '</h3><p>' + post.location + '</p>')

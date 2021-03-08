@@ -1,6 +1,7 @@
 const Post = require('../models/post');
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
-const geocodingClient = mbxGeocoding({ accessToken: process.env.MAPBOX_TOKEN });
+let mapBoxToken = process.env.MAPBOX_TOKEN;
+const geocodingClient = mbxGeocoding({ accessToken: mapBoxToken });
 const cloudinary = require('cloudinary');
 cloudinary.config({
     cloud_name: 'dqrm0myct',
@@ -18,7 +19,7 @@ module.exports = {
         post.page = Number(post.page);
         res.render('posts/index', { 
             post, 
-            mapBoxToken: process.env.MAPBOX_TOKEN, 
+            mapBoxToken: mapBoxToken, 
             title: "Post index" 
         });
     },
@@ -58,8 +59,7 @@ module.exports = {
             } 
         });
         const floorRating = post.calculateAvgRating();
-        let mapboxToken = process.env.MAPBOX_TOKEN;
-        res.render('posts/show', { post, mapboxToken, floorRating }); //mapboxToken
+        res.render('posts/show', { post, mapBoxToken, floorRating }); 
     },
     //Post edit
     async postEdit(req, res, next) {
@@ -101,7 +101,8 @@ module.exports = {
                     limit: 1
                 })
                 .send();
-            post.coordinates = response.body.features[0].geometry.coordinates;
+            // post.coordinates = response.body.features[0].geometry.coordinates;
+            post.geometry.coordinates = response.body.features[0].geometry.coordinates;
             post.location = req.body.location;
         }
         //update the post with the new properties
