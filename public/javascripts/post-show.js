@@ -2,8 +2,8 @@
 //create a map with mapbox 
 mapboxgl.accessToken = 'pk.eyJ1Ijoia21lcnkiLCJhIjoiY2tsYTVoZzBpMGQyeTJucDI4ajl4eXd4byJ9.Oa9HXfXX1DJl9lcUg6j9CQ';
 // console.log(post);
-// console.log(mapBoxToken);
 // mapboxgl.accessToken = mapBoxToken;
+// console.log(mapBoxToken);
 var map = new mapboxgl.Map({
     container: 'map',
     // style: 'mapbox://styles/mapbox/streets-v11',
