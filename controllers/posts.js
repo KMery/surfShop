@@ -2,12 +2,7 @@ const Post = require('../models/post');
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 let mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapBoxToken });
-const cloudinary = require('cloudinary');
-cloudinary.config({
-    cloud_name: 'dqrm0myct',
-    api_key: '823875831589267',
-    api_secret: process.env.CLOUDINARY_SECRET
-});
+const { cloudinary } = require('../cloudinary');
 
 module.exports = {
     //Post index
@@ -32,10 +27,9 @@ module.exports = {
     async postCreate(req, res, next) {
         req.body.post.images = [];
         for (const file of req.files) {
-            let image = await cloudinary.v2.uploader.upload(file.path);
             req.body.post.images.push({
-                url: image.secure_url,
-                public_id: image.public_id
+                url: file.secure_url,
+                public_id: file.public_id
             });
         };
         let response = await geocodingClient
